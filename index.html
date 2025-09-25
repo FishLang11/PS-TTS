@@ -4,19 +4,31 @@
   <meta charset="UTF-8">
   <title>PS-TTS Demo</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    h1 { font-size: 24px; }
-    h2 { margin-top: 20px; font-size: 20px; }
+    body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
+    h1 { font-size: 26px; margin-bottom: 10px; }
+    h2 { margin-top: 20px; font-size: 20px; text-align: left; }
+    .authors { font-size: 16px; margin-bottom: 30px; }
+    .affiliation { font-size: 14px; margin-bottom: 40px; }
     audio { margin-bottom: 10px; display: block; }
-    .sample { margin-bottom: 30px; }
+    .sample { margin-bottom: 30px; text-align: left; }
   </style>
 </head>
 <body>
-  <h1>PS-TTS Demo Samples</h1>
+  <h1>PS-TTS: CONTINUOUS EMOTION CONTROL AND TEXT-ADAPTIVE TEXT-TO-SPEECH<br>
+  VIA PROSODY STEERING</h1>
+
+  <div class="authors">
+    Lang Duan<sup>1</sup>, Minchuan Chen<sup>2</sup>, Yan Shi<sup>2</sup>, Shaojun Wang<sup>2</sup>, Jing Xiao<sup>2</sup>
+  </div>
+  <div class="affiliation">
+    <sup>1</sup>Harbin Institute of Technology, China<br>
+    <sup>2</sup>Ping An Technology, China
+  </div>
+
   <p>This page presents audio samples from our proposed PS-TTS system compared with ground truth speech.</p>
 
   <div class="sample">
-    <h2>Example 1: Neutral -→ Happy</h2>
+    <h2>Example 1: Neutral → Happy</h2>
     <p><b>Ground Truth</b></p>
     <audio controls>
       <source src="audio/example1_gt.wav" type="audio/wav">
@@ -52,4 +64,6 @@
   </div>
 </body>
 </html>
+
+
 
