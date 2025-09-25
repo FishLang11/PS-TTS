@@ -3,67 +3,326 @@
 <head>
   <meta charset="UTF-8">
   <title>PS-TTS Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
-    h1 { font-size: 26px; margin-bottom: 10px; }
-    h2 { margin-top: 20px; font-size: 20px; text-align: left; }
-    .authors { font-size: 16px; margin-bottom: 30px; }
-    .affiliation { font-size: 14px; margin-bottom: 40px; }
-    audio { margin-bottom: 10px; display: block; }
-    .sample { margin-bottom: 30px; text-align: left; }
+    /* 页面基础 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background-color: #fafafa;
+      color: #222;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 主容器 */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    /* Header */
+    .header {
+      width: 100%;
+      background: #e0e0e0;
+      padding: 30px;
+      margin: 0 0 20px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      border-radius: 10px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 16px 0;
+      line-height: 1.3;
+      letter-spacing: 0.2px;
+    }
+    .authors { font-size: 16px; margin-bottom: 6px; }
+    .affiliation { font-size: 14px; color: #555; }
+    .header p { margin: 16px 0 0 0; color: #444; }
+
+    /* 统一黑灰分割线 */
+    .full-divider {
+      width: 100%;
+      height: 2px;
+      background: #333;
+      margin: 28px 0;
+      border-radius: 1px;
+    }
+
+    /* Abstract & Audio Samples 样式统一 */
+    .section-card {
+      width: 100%;
+      background: #fff;
+      padding: 20px 22px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      color: #333;
+      font-size: 15px;
+      line-height: 1.6;
+      box-sizing: border-box;
+    }
+    .section-card h2 {
+      margin: 0 0 10px 0;
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Section 标题（居中） */
+    .section-title {
+      text-align: center;
+      font-size: 22px;
+      margin: 36px 0 12px;
+      color: #111;
+    }
+
+    /* 内容标题（左对齐 - 用于 Part 1/2） */
+    h2.part {
+      margin: 28px 0 12px;
+      font-size: 20px;
+      text-align: left;
+      color: #111;
+    }
+
+    /* 表格与音频样式 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      margin-bottom: 36px;
+      table-layout: fixed;
+    }
+    th, td {
+      border: 1px solid #e0e0e0;
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+      word-wrap: break-word;
+    }
+    th {
+      background: #f6f6f6;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    audio {
+      display: block;
+      margin: 6px auto;
+      width: 110px; /* 播放器宽度 */
+    }
+
+    /* 响应式微调 */
+    @media (max-width: 640px) {
+      .container { padding: 0 12px; }
+      audio { width: 100px; }
+      h1 { font-size: 20px; }
+      .section-title { font-size: 18px; margin: 28px 0 8px; }
+    }
   </style>
 </head>
 <body>
-  <h1>PS-TTS: CONTINUOUS EMOTION CONTROL AND TEXT-ADAPTIVE TEXT-TO-SPEECH<br>
-  VIA PROSODY STEERING</h1>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>
+        PS-TTS: CONTINUOUS EMOTION CONTROL AND TEXT-ADAPTIVE TEXT-TO-SPEECH<br>
+        VIA PROSODY STEERING
+      </h1>
+      <div class="authors">
+        Lang Duan<sup>1</sup>, Minchuan Chen<sup>2</sup>, Yan Shi<sup>2</sup>, Shaojun Wang<sup>2</sup>, Jing Xiao<sup>2</sup>
+      </div>
+      <div class="affiliation">
+        <sup>1</sup>Harbin Institute of Technology, China &nbsp; &nbsp; 
+        <sup>2</sup>Ping An Technology, China
+      </div>
+      <hr style="border:none;border-top:1px solid #e6e6e6;margin:16px 0 0 0;">
+    </div>
 
-  <div class="authors">
-    Lang Duan<sup>1</sup>, Minchuan Chen<sup>2</sup>, Yan Shi<sup>2</sup>, Shaojun Wang<sup>2</sup>, Jing Xiao<sup>2</sup>
-  </div>
-  <div class="affiliation">
-    <sup>1</sup>Harbin Institute of Technology, China<br>
-    <sup>2</sup>Ping An Technology, China
-  </div>
+    <!-- Abstract -->
+    <div class="full-divider"></div>
+    <div class="section-card">
+      <h2>Abstract</h2>
+    </div>
 
-  <p>This page presents audio samples from our proposed PS-TTS system compared with ground truth speech.</p>
+      <p style="font-size:15px; line-height:1.6; color:#333; margin-top:12px;">
+        Current emotion-controllable text-to-speech systems often rely on global embeddings or discrete labels independent of textual context, resulting in unnatural prosody and rigid expression. To address this misalignment, we propose PS-TTS, a framework for continuous and text-adaptive emotion control via prosody steering, building on a flow-matching framework with a DiT backbone. A text-adaptive prosody predictor conditioned on emotion label, intensity and text generates prosody vectors, which are injected into each DiT block through cross-attention for context-aware emotional steering. To support fine-grained control, we introduce a text-adaptive intensity modeling scheme that fuses emotion embeddings and textual representations to produce context-aware emotion intensities, allowing the same emotion to manifest differently across sentences. Furthermore, an auxiliary emotion consistency loss enforces stepwise alignment of intermediate states with target emotions, improving controllability and naturalness. Experiments show that PS-TTS outperforms strong baselines in both naturalness and emotion expressiveness, while providing continuous, context-sensitive, and fine-grained emotion control.
+      </p>
 
-  <div class="sample">
-    <h2>Example 1: Neutral → Happy</h2>
-    <p><b>Ground Truth</b></p>
-    <audio controls>
-      <source src="audio/example1_gt.wav" type="audio/wav">
-    </audio>
-    <p><b>PS-TTS</b></p>
-    <audio controls>
-      <source src="audio/example1_pstts.wav" type="audio/wav">
-    </audio>
-  </div>
+ <div class="full-divider"></div>
+<!-- Model Architecture 标题，带白框 -->
+<div class="section-card">
+  <h2>Model Architecture</h2>
+</div>
 
-  <div class="sample">
-    <h2>Example 2: Neutral → Sad</h2>
-    <p><b>Ground Truth</b></p>
-    <audio controls>
-      <source src="audio/example2_gt.wav" type="audio/wav">
-    </audio>
-    <p><b>PS-TTS</b></p>
-    <audio controls>
-      <source src="audio/example2_pstts.wav" type="audio/wav">
-    </audio>
-  </div>
+<!-- Model Architecture 文字 -->
+<p style="font-size:15px; line-height:1.6; color:#333; margin-top:12px; text-align:justify;">
+  Overview of the proposed framework. The left part shows the training stage, where head1 (emotion classification) and head2 (emotion intensity regression) provide auxiliary supervision. MSpeech denotes Masked Speech, and NSpeech denotes Noisy Speech. The right part illustrates the inference stage.
+</p>
 
-  <div class="sample">
-    <h2>Example 3: Neutral → Angry</h2>
-    <p><b>Ground Truth</b></p>
-    <audio controls>
-      <source src="audio/example3_gt.wav" type="audio/wav">
-    </audio>
-    <p><b>PS-TTS</b></p>
-    <audio controls>
-      <source src="audio/example3_pstts.wav" type="audio/wav">
-    </audio>
+<!-- Model Architecture 图片 -->
+<div style="text-align:center; margin:20px 0;">
+  <img src="src/arch.png" alt="Model Architecture" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+</div>
+
+
+    
+    <div class="full-divider"></div>
+
+    <!-- Audio Samples 标题 -->
+<div class="section-card">
+  <h2>Audio Samples</h2>
+</div>
+
+
+
+<!-- Part 1 -->
+<h2 class="part">Part 1: Model Evaluation</h2>
+
+<!-- 表格说明文字 -->
+<p style="font-size:15px; line-height:1.6; color:#333; margin-top:12px;">
+   The following table presents audio samples generated by different baselines and PS-TTS for four emotions: Angry, Happy, Sad, and Surprise. Listeners can compare the naturalness and emotion expressiveness between baselines and PS-TTS across different emotions.
+<p>
+
+<table>
+  <tr>
+    <th style="width:18%">Model / Emotion</th>
+    <th>Angry</th>
+    <th>Happy</th>
+    <th>Sad</th>
+    <th>Surprise</th>
+  </tr>
+  <tr>
+    <td><b>Ground Truth</b></td>
+    <td><audio controls><source src="audio/angry_gt.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_gt.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_gt.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_gt.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><b>Vocoder Resyn</b></td>
+    <td><audio controls><source src="audio/angry_vocoder.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_vocoder.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_vocoder.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_vocoder.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><b>EmoMix</b></td>
+    <td><audio controls><source src="audio/angry_emomix.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_emomix.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_emomix.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_emomix.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><b>EmoDiff</b></td>
+    <td><audio controls><source src="audio/angry_emodiff.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_emodiff.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_emodiff.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_emodiff.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><b>PS-TTS</b></td>
+    <td><audio controls><source src="audio/angry_pstts.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_pstts.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_pstts.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_pstts.wav" type="audio/wav"></audio></td>
+  </tr>
+</table>
+
+ 
+
+ <!-- Part 2 -->
+<h2 class="part">Part 2: Emotion Controllability</h2>
+
+<!-- 表格说明文字 -->
+<p style="font-size:15px; line-height:1.6; color:#333; margin-top:12px;">
+  Audio samples for each of the four emotions (Angry, Happy, Sad, Surprise) are shown below. 
+  For each emotion, two independent uttrances are provided, and the emotion intensity gradually increases from 0.2 to 1.0 from left to right.
+</p>
+
+<table>
+  <tr>
+    <th style="width:18%">Emotion / Intensity</th>
+    <th>0.2</th>
+    <th>0.4</th>
+    <th>0.6</th>
+    <th>0.8</th>
+    <th>1.0</th>
+  </tr>
+
+  <!-- Angry -->
+  <tr>
+    <td rowspan="2"><b>Angry</b></td>
+    <td><audio controls><source src="audio/angry_0.2_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_0.4_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_0.6_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_0.8_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_1.0_1.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls><source src="audio/angry_0.2_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_0.4_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_0.6_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_0.8_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/angry_1.0_2.wav" type="audio/wav"></audio></td>
+  </tr>
+
+  <!-- Happy -->
+  <tr>
+    <td rowspan="2"><b>Happy</b></td>
+    <td><audio controls><source src="audio/happy_0.2_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_0.4_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_0.6_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_0.8_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_1.0_1.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls><source src="audio/happy_0.2_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_0.4_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_0.6_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_0.8_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/happy_1.0_2.wav" type="audio/wav"></audio></td>
+  </tr>
+
+  <!-- Sad -->
+  <tr>
+    <td rowspan="2"><b>Sad</b></td>
+    <td><audio controls><source src="audio/sad_0.2_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_0.4_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_0.6_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_0.8_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_1.0_1.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls><source src="audio/sad_0.2_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_0.4_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_0.6_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_0.8_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/sad_1.0_2.wav" type="audio/wav"></audio></td>
+  </tr>
+
+  <!-- Surprise -->
+  <tr>
+    <td rowspan="2"><b>Surprise</b></td>
+    <td><audio controls><source src="audio/surprise_0.2_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_0.4_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_0.6_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_0.8_1.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_1.0_1.wav" type="audio/wav"></audio></td>
+  </tr>
+  <tr>
+    <td><audio controls><source src="audio/surprise_0.2_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_0.4_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_0.6_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_0.8_2.wav" type="audio/wav"></audio></td>
+    <td><audio controls><source src="audio/surprise_1.0_2.wav" type="audio/wav"></audio></td>
+  </tr>
+</table>
+
+
   </div>
 </body>
 </html>
-
-
-
